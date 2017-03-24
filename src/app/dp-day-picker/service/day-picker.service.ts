@@ -9,37 +9,14 @@ import {FormControl} from '@angular/forms';
 @Injectable()
 export class DayPickerService {
   private defaultConfig: IDayPickerConfig = {
-    firstDayOfWeek: 'su',
-    calendarsAmount: 1,
-    format: 'DD-MM-YYYY',
-    monthFormat: 'MMM, YYYY',
     closeOnSelect: true,
     closeOnSelectDelay: 100,
-    weekdayNames: {
-      su: 'sun',
-      mo: 'mon',
-      tu: 'tue',
-      we: 'wed',
-      th: 'thu',
-      fr: 'fri',
-      sa: 'sat'
-    },
     disableKeypress: false
   };
 
-  private formatValues(config: IDayPickerConfig): void {
-    const {format, min, max} = config;
+  constructor(private calendarContainerService: CalendarService) {}
 
-    if (min && typeof min === 'string') {
-      config.min = moment(min, format);
-    }
-
-    if (max && typeof max === 'string') {
-      config.max = moment(max, format);
-    }
-  }
-
-  getConfig(config: IDayPickerConfig) {
+  getConfig(config: IDayPickerConfig): ICalendarConfig {
     if (config && config.allowMultiSelect && config.closeOnSelect === undefined) {
       // Default to not closing if multi select enabled
       config.closeOnSelect = false;
